@@ -54,12 +54,12 @@ def detect(frame, classifier, model):
 
 def draw_result(result, frame, coord):
 
-    if result[0][0] > result[0][1]:
+    #if result[0][0] > result[0][1]:
         #red
-        frame = cv2.rectangle(frame, (coord[0], (coord[1]+coord[3])), ((coord[0]+coord[2]), coord[1]), (255,0,0))
-    else:
+    frame = cv2.rectangle(frame, (coord[0], (coord[1]+coord[3])), ((coord[0]+coord[2]), coord[1]), (0,0,255))
+    #else:
         #green
-        frame = cv2.rectangle(frame, (coord[0], (coord[1]+coord[3])), ((coord[0]+coord[2]), coord[1]), (0,255,0))
+    #    frame = cv2.rectangle(frame, (coord[0], (coord[1]+coord[3])), ((coord[0]+coord[2]), coord[1]), (0,255,0))
     
     
     return frame
