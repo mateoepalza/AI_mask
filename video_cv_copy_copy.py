@@ -73,16 +73,16 @@ def detect(frame, classifier, model):
 
 def draw_result(result, frame, coord):
 
-    font = cv2.FONT_HERSHEY_SIMPLEX
+    font = cv2.FONT_HERSHEY_PLAIN
 
     if result[0][0] > result[0][1]:
         #red
         frame = cv2.rectangle(frame, (coord[0], coord[1]), (coord[2], coord[3]), (0,0,255), 3)
-        cv2.putText(frame,'Cliente sin tapabocas',(150,30),font,1,(0,0,255),2,cv2.LINE_AA)
+        cv2.putText(frame,'Sin tapabocas',(coord[0], coord[1] - 10),font,1,(0,0,255),1,cv2.LINE_AA)
     else:
         #green
         frame = cv2.rectangle(frame, (coord[0], coord[1]), (coord[2], coord[3]), (0,255,0), 3)
-        cv2.putText(frame,'Cliente con tapabocas',(150,30),font,1,(0,255,0),2,cv2.LINE_AA)
+        cv2.putText(frame,'Con tapabocas',(coord[0],coord[1] - 10),font,1,(0,255,0),1,cv2.LINE_AA)
     
     
     return frame
