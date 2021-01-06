@@ -77,12 +77,12 @@ def draw_result(result, frame, coord):
 
     if result[0][0] > result[0][1]:
         #red
-        frame = cv2.rectangle(frame, (coord[0], coord[1]), (coord[2], coord[3]), (0,0,255), 3)
-        cv2.putText(frame,'Sin tapabocas',(coord[0], coord[1] - 10),font,1,(0,0,255),1,cv2.LINE_AA)
+        frame = cv2.rectangle(frame, (coord[0], coord[1]), (coord[2], coord[3]), (0,0,255), 2)
+        cv2.putText(frame,'Cliente sin tapabocas',(coord[0],coord[1]-6),font,(2*((coord[3]-coord[0])+(coord[2]-coord[1])))/1300,(0,0,255),2,cv2.LINE_AA)
     else:
         #green
-        frame = cv2.rectangle(frame, (coord[0], coord[1]), (coord[2], coord[3]), (0,255,0), 3)
-        cv2.putText(frame,'Con tapabocas',(coord[0],coord[1] - 10),font,1,(0,255,0),1,cv2.LINE_AA)
+        frame = cv2.rectangle(frame, (coord[0], coord[1]), (coord[2], coord[3]), (0,255,0), 2)
+        cv2.putText(frame,'Cliente con tapabocas',(coord[0],coord[1]-6),font,(2*((coord[3]-coord[0])+(coord[2]-coord[1])))/1300,(0,255,0),2,cv2.LINE_AA)
     
     
     return frame
