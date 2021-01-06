@@ -4,12 +4,16 @@ import numpy as np
 import tensorflow as tf
 import time
 
+# width and height of the image (pixels)
 width = 160
 height = 160
 
 def main():
+    # load the classifier
     classifier = define_classifier()
+    # load the trained model
     model = load_model()
+    # capture the video 
     video_capture(classifier, model)
 
 def load_model():
@@ -25,7 +29,7 @@ def define_classifier():
     prototxtPath = os.path.join(os.getcwd(), "models","deploy.prototxt")
     # path for the weights
     weightsPath = os.path.join(os.getcwd(), "models","res10_300x300_ssd_iter_140000.caffemodel")
-    # 
+    # create the net with the structure and the weights
     net = cv2.dnn.readNet(prototxtPath, weightsPath)
 
     return net
@@ -33,18 +37,18 @@ def define_classifier():
 def detect(frame, classifier, model):
     # make a copy 
     frame_copy = np.copy(frame)
+    # obtain the width and height of the image
     (h, w) = frame.shape[:2]
-    #change the color from RGB to grayscale
-    #frame_img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    #
-    #frame_img = cv2.equalizeHist(frame_img)
+    # change the format of the image from 
     blob = cv2.dnn.blobFromImage(frame, 1.0 , (300, 300), (104.0, 177.0, 123.0))
+    # Input the image into the classifier
     classifier.setInput(blob)
+    # retrieve all the faces found in the image
     faces = classifier.forward()
 
     # Iterate over all the faces
     for i in range(0, faces.shape[2]):
-        #print("Enter")
+        # check the confidence in each face
         confidence = faces[0,0,i,2]
 
         if confidence > 0.5:
@@ -59,9 +63,6 @@ def detect(frame, classifier, model):
             (endX, endY) = (min(w - 1, endX), min(h - 1, endY))
             face = frame_copy[startY:endY, startX:endX]
 
-            # get the face from the vector
-            #face = frame_copy[y:(y+h),x:(x+w)]
-
             # prepare the face
             face = prep_face(face)
             # execute model
@@ -73,16 +74,17 @@ def detect(frame, classifier, model):
 
 def draw_result(result, frame, coord):
 
+    # Define a font for the text
     font = cv2.FONT_HERSHEY_PLAIN
 
     if result[0][0] > result[0][1]:
         #red
         frame = cv2.rectangle(frame, (coord[0], coord[1]), (coord[2], coord[3]), (0,0,255), 2)
-        cv2.putText(frame,'Cliente sin tapabocas',(coord[0],coord[1]-6),font,(2*((coord[3]-coord[0])+(coord[2]-coord[1])))/1300,(0,0,255),2,cv2.LINE_AA)
+        cv2.putText(frame,'Sin tapabocas',(coord[0],coord[1]-6),font,(2*((coord[3]-coord[0])+(coord[2]-coord[1])))/500,(0,0,255),2,cv2.LINE_AA)
     else:
         #green
         frame = cv2.rectangle(frame, (coord[0], coord[1]), (coord[2], coord[3]), (0,255,0), 2)
-        cv2.putText(frame,'Cliente con tapabocas',(coord[0],coord[1]-6),font,(2*((coord[3]-coord[0])+(coord[2]-coord[1])))/1300,(0,255,0),2,cv2.LINE_AA)
+        cv2.putText(frame,'Con tapabocas',(coord[0],coord[1]-6),font,(2*((coord[3]-coord[0])+(coord[2]-coord[1])))/500,(0,255,0),2,cv2.LINE_AA)
     
     
     return frame
