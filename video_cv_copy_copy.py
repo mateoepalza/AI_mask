@@ -14,7 +14,7 @@ def main():
     # load the trained model
     model = load_model()
     # creates a mapping pixel for the gamma values
-    mapping = creates_mapping(2)
+    mapping = creates_mapping(2.5)
     # capture the video 
     video_capture(classifier, model, mapping)
 
@@ -37,12 +37,10 @@ def define_classifier():
     return net
 
 def creates_mapping(gamma):
-    #build a lookup table mapping the pixel values [0, 255] to
+    # build a lookup table mapping the pixel values [0, 255] to
 	# their adjusted gamma values
-	invGamma = 1.0 / gamma
-	table = np.array([((i / 255.0) ** invGamma) * 255
-		for i in np.arange(0, 256)]).astype("uint8")
-	
+    invGamma = (1.0 / gamma)
+    table = np.array([((i / 255.0) ** invGamma) * 255 for i in np.arange(0, 256)]).astype("uint8")
     return table
 
 def detect(frame, classifier, model, mapping):
@@ -110,7 +108,7 @@ def prep_face(face, mapping):
     # modify the width and height of the image
     image_f = cv2.resize(face, (width, height))
     # Adjust the gamma of the image
-    image_f =  cv2.LUT(image_f, mapping)
+    image_f = cv2.LUT(image_f, mapping)
     # change the color from RGB to grayscale
     image_f = cv2.cvtColor(image_f, cv2.COLOR_BGR2GRAY)
     # reshape
@@ -120,15 +118,6 @@ def prep_face(face, mapping):
 
     return image_f
 
-def adjust_gamma(image, gamma):
-    # build a lookup table mapping the pixel values [0, 255] to
-	# their adjusted gamma values
-	invGamma = 1.0 / gamma
-	table = np.array([((i / 255.0) ** invGamma) * 255
-		for i in np.arange(0, 256)]).astype("uint8")
-	# apply gamma correction using the lookup table
-    gamma = cv2.LUT(image, table)
-	return np.hstack([image, gamma])
 def video_capture(classifier, model, mapping):
     # the argument is the "position" of the camera
     cam = cv2.VideoCapture(0)
@@ -143,7 +132,7 @@ def video_capture(classifier, model, mapping):
         # Display the resulting frame
         cv2.imshow('frame',frame)
 
-        time.sleep(0.025)
+        #time.sleep(0.025)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     
