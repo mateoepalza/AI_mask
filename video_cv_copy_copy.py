@@ -14,7 +14,7 @@ def main():
     # load the trained model
     model = load_model()
     # creates a mapping pixel for the gamma values
-    mapping = creates_mapping(2.5)
+    mapping = creates_mapping(2)
     # capture the video 
     video_capture(classifier, model, mapping)
 
@@ -135,7 +135,7 @@ def video_capture(classifier, model, mapping):
         # Display the resulting frame
         cv2.imshow('frame',frame)
 
-        #time.sleep(0.025)
+        time.sleep(0.025)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     
