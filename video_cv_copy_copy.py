@@ -20,7 +20,7 @@ def main():
 
 def load_model():
     # Get the path of the neural network
-    model_path = os.path.join(os.getcwd(), 'models', 'modelo2.hdf5')
+    model_path = os.path.join(os.getcwd(), 'models', 'modelo4.hdf5')
     # load the model
     model = tf.keras.models.load_model(model_path)
 
@@ -113,6 +113,7 @@ def prep_face(face, mapping):
     image_f = cv2.LUT(image_f, mapping)
     # change the color from RGB to grayscale
     image_f = cv2.cvtColor(image_f, cv2.COLOR_BGR2GRAY)
+    image_f = cv2.equalizeHist(image_f)
     # reshape
     image_f = np.reshape(image_f, (-1, width, height, 1))
     # normalize the image
