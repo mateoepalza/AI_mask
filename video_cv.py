@@ -20,7 +20,7 @@ def main():
 
 def load_model():
     # Get the path of the neural network
-    model_path = os.path.join(os.getcwd(), 'models', 'modelo4.hdf5')
+    model_path = os.path.join(os.getcwd(), 'models', 'modelo5.hdf5')
     # load the model
     model = tf.keras.models.load_model(model_path)
 
